@@ -1,0 +1,13 @@
+# User files
+*.suo
+*.user
+*.userprefs
+
+# Build
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+[Pp]ackages/
