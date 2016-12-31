@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CDF4D4E2-2E38-41CA-9ABB-33D5547688F1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>DominosApi</RootNamespace>
+    <AssemblyName>DominosApi</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+      <Package>monodevelop</Package>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net45\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xml.Serialization" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RestModels\Store.cs" />
+    <Compile Include="IDominosApi.cs" />
+    <Compile Include="DominosApi.cs" />
+    <Compile Include="URI.cs" />
+    <Compile Include="RestUtils.cs" />
+    <Compile Include="PaymentType.cs" />
+    <Compile Include="RestModels\Responses\LocationQueryResponse.cs" />
+    <Compile Include="RestModels\Responses\MenuQueryResponse.cs" />
+    <Compile Include="RestModels\Responses\StoreDetailsQueryResponse.cs" />
+    <Compile Include="RestModels\Address.cs" />
+    <Compile Include="RestModels\Customer.cs" />
+    <Compile Include="RestModels\Product.cs" />
+    <Compile Include="RestModels\Payment.cs" />
+    <Compile Include="RestModels\Order.cs" />
+    <Compile Include="RestModels\Requests\PlaceOrderRequest.cs" />
+    <Compile Include="RestModels\OrderWithPayment.cs" />
+    <Compile Include="RestModels\Requests\PriceOrderRequest.cs" />
+    <Compile Include="RestModels\ReturnedOrder.cs" />
+    <Compile Include="RestModels\Responses\OrderResponse.cs" />
+    <Compile Include="RestModels\Responses\SoapTrackingResponse.cs" />
+    <Compile Include="RestModels\OrderStatus.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="RestModels\" />
+    <Folder Include="RestModels\Requests\" />
+    <Folder Include="RestModels\Responses\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>
