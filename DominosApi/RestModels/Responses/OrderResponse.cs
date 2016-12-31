@@ -28,17 +28,17 @@ namespace DominosApi
 	{
 		private AmountBreakdown() { }
 
-		public double? Menu { get; private set; }
-		public double? Discount { get; private set; }
-		public double? Surcharge { get; private set; }
-		public double? Adjustment { get; private set; }
-		public double? Net { get; private set; }
-		public double? Tax { get; private set; }
-		public double? Tax1 { get; private set; }
-		public double? Tax2 { get; private set; }
-		public double? Bottle { get; private set; }
-		public double? Customer { get; private set; }
-		public double? Payment { get; private set; }
+		public decimal? Menu { get; private set; }
+		public decimal? Discount { get; private set; }
+		public decimal? Surcharge { get; private set; }
+		public decimal? Adjustment { get; private set; }
+		public decimal? Net { get; private set; }
+		public decimal? Tax { get; private set; }
+		public decimal? Tax1 { get; private set; }
+		public decimal? Tax2 { get; private set; }
+		public decimal? Bottle { get; private set; }
+		public decimal? Customer { get; private set; }
+		public decimal? Payment { get; private set; }
 	}
 }
 

@@ -20,7 +20,7 @@ namespace DominosApi
 		/// <param name="amount">The amount to charge to the card.  You must make a PriceOrder(...) query 
 		/// to find out what the expected total is, and use that.</param>
 		public Payment(string cardNumber, CreditCardType cardType, string expiration, 
-			string securityCode, string postalCode, double amount)
+			string securityCode, string postalCode, decimal amount)
 		{
 			CardNumber = cardNumber;
 			CardType = cardType;
@@ -33,7 +33,7 @@ namespace DominosApi
 
 		public string Type { get; private set; }
 
-		public double Amount { get; private set; }
+		public decimal Amount { get; private set; }
 
 		[JsonProperty("Number")]
 		public string CardNumber { get; private set; }
