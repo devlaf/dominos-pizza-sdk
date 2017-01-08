@@ -42,7 +42,12 @@ namespace DominosApi
 		{
 			return await Task.Factory.StartNew<T>( () => 
 					{
+						LogRequest(log, client, request);
+
 						var response = SendRestRequestSyncronous(client, request, log, throwOnError);
+
+						LogResponse(log, response);
+
 						return DeserializeRestResponse<T>(response, format, log, throwOnError);
 					}
 			);
@@ -66,6 +71,37 @@ namespace DominosApi
 			}
 
 			return response;
+		}
+
+		private static void LogRequest(Action<string> log, RestClient client, RestRequest request)
+		{
+			if(log == null)
+				return;
+
+			var requestToLog = new
+				{
+					resource = request.Resource,
+					parameters = request.Parameters.Select(parameter => new
+							{
+								name = parameter.Name,
+								value = parameter.Value,
+								type = parameter.Type.ToString()
+							}),
+					method = request.Method.ToString(),
+					uri = client.BuildUri(request)
+				};
+
+			log(string.Format("Sending Request.  Details: {0}{1} ", Environment.NewLine,
+				JsonConvert.SerializeObject(requestToLog)));
+		}
+
+		private static void LogResponse(Action<string> log, IRestResponse response)
+		{
+			if(log == null)
+				return;
+
+			log(string.Format("Response Recieved.  Details: {0}{1} ", Environment.NewLine,
+				response.Content));
 		}
 
 		#endregion

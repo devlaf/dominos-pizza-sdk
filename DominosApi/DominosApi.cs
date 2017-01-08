@@ -45,7 +45,7 @@ namespace DominosApi
 
 			var request = RestUtils.PackageRestRequest(requestURI, Method.GET);
 
-			return await RestUtils.SendRestRequest<LocationQueryResponse>(_client, request);
+			return await RestUtils.SendRestRequest<LocationQueryResponse>(_client, request, log:LogError);
 		}
 
 		public async Task<StoreDetailsQueryResponse> GetStoreDetails(int StoreID)
@@ -54,7 +54,7 @@ namespace DominosApi
 
 			var request = RestUtils.PackageRestRequest(requestURI, Method.GET);
 
-			return await RestUtils.SendRestRequest<StoreDetailsQueryResponse>(_client, request);
+			return await RestUtils.SendRestRequest<StoreDetailsQueryResponse>(_client, request, log:LogError);
 		}
 
 		public async Task<MenuQueryResponse> GetMenu(int StoreID)
@@ -63,7 +63,7 @@ namespace DominosApi
 
 			var request = RestUtils.PackageRestRequest(requestURI, Method.GET);
 
-			return await RestUtils.SendRestRequest<MenuQueryResponse>(_client, request);
+			return await RestUtils.SendRestRequest<MenuQueryResponse>(_client, request, log:LogError);
 		}
 
 		public async Task<OrderResponse> PriceOrder(Order order)
@@ -71,7 +71,7 @@ namespace DominosApi
 			var request = RestUtils.PackageRestRequest(URI.PriceOrderURI, Method.POST, 
 				new PriceOrderRequest(order), _orderHeaders);
 
-			var response = await RestUtils.SendRestRequest<OrderResponse>(_client, request);
+			var response = await RestUtils.SendRestRequest<OrderResponse>(_client, request, log:LogError);
 			ThrowOnInvalidDominosStatus(response);
 			return response;
 		}
@@ -95,14 +95,14 @@ namespace DominosApi
 			var request = RestUtils.PackageRestRequest(requestURI, Method.GET);
 
 			var resp =  await RestUtils.SendRestRequest<SoapTrackingResponse>(
-				_trackingClient, request, RestUtils.ResponseBodyType.XML);
+				_trackingClient, request, RestUtils.ResponseBodyType.XML, log:LogError);
 
 			var status = resp.Envelope.Body.TrackingResponse.OrderStatuses.OrderStatus;
 
 			return new List<OrderStatus>(new OrderStatus[] { status });
 		}
 
-		private static void ThrowOnInvalidDominosStatus(OrderResponse response)
+		private void ThrowOnInvalidDominosStatus(OrderResponse response)
 		{
 			if(response.Status < 0)
 			{
@@ -119,8 +119,10 @@ namespace DominosApi
 						throw;
 				}
 
-				throw new DominosException(string.Format("Request failed with status {0}, Code(s): [{1}]",
-					response.Status, statusCodes ?? "unknown"));
+				string err = string.Format("Request failed with status {0}, Code(s): [{1}]",
+					             response.Status, statusCodes ?? "unknown");
+				LogError(err);
+				throw new DominosException(err);
 			}
 		}
 	}
