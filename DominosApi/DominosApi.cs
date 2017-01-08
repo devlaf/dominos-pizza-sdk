@@ -83,7 +83,7 @@ namespace DominosApi
 			var request = RestUtils.PackageRestRequest(URI.PlaceOrderURI, Method.POST, 
 				new PlaceOrderRequest(requestBodyInnerObj), _orderHeaders);
 
-			var response = await RestUtils.SendRestRequest<OrderResponse>(_client, request);
+			var response = await RestUtils.SendRestRequest<OrderResponse>(_client, request, log:LogError);
 			ThrowOnInvalidDominosStatus(response);
 			return response;
 		}
