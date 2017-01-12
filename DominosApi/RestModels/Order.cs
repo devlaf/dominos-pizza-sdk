@@ -10,7 +10,7 @@ namespace DominosApi
 		[JsonConstructor]
 		protected Order() { }
 
-		public Order(Customer customer, string storeID, List<Product> products)
+		public Order(Customer customer, string storeID, List<Product> products, List<Coupon> coupons)
 		{
 			Address = customer.Address;
 			Email = customer.Email;
@@ -20,8 +20,9 @@ namespace DominosApi
 			Extension = customer.Extension;
 			StoreID = storeID;
 			Products = products;
+            Coupons = coupons;
 
-			PhonePrefix = string.Empty;
+            PhonePrefix = string.Empty;
 			OrderID = string.Empty;		// TODO: May need to change this, not sure what it does.
 			LanguageCode = "en";
 			OrderChannel = "OLO";
@@ -57,7 +58,8 @@ namespace DominosApi
 
 		public OrderTags Tags { get; private set; }
 		public List<Product> Products { get; private set; }
-	}
+        public List<Coupon> Coupons { get; private set; }
+    }
 
 	[JsonObject]
 	public class OrderTags
