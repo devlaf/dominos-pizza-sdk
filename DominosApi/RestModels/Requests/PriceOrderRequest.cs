@@ -3,18 +3,18 @@ using Newtonsoft.Json;
 
 namespace DominosApi
 {
-	[JsonObject]
-	public class PriceOrderRequest
-	{
-		[JsonConstructor]
-		private PriceOrderRequest() { }
+    [JsonObject]
+    public class PriceOrderRequest
+    {
+        [JsonConstructor]
+        private PriceOrderRequest() { }
 
-		public PriceOrderRequest(Order order)
-		{
-			Order = order;
-		}
+        public PriceOrderRequest(Order order)
+        {
+            Order = order;
+        }
 
-		public Order Order { get; private set; }
-	}
+        public Order Order { get; private set; }
+    }
 }
 
