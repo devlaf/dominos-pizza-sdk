@@ -15,7 +15,7 @@ namespace DominosApi
 
 		Task<OrderResponse> PriceOrder(Order order);
 
-		Task<OrderResponse> PlaceOrder(Order order, List<Payment> payments);
+		Task<OrderResponse> PlaceOrder(Order order, List<Payment> payments, List<Coupon> coupons = null);
 
 		Task<List<OrderStatus>> TrackOrder(string phoneNumber);
 	}

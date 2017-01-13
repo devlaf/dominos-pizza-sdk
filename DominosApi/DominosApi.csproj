@@ -65,6 +65,7 @@
     <Compile Include="RestModels\Responses\OrderResponse.cs" />
     <Compile Include="RestModels\Responses\SoapTrackingResponse.cs" />
     <Compile Include="RestModels\OrderStatus.cs" />
+    <Compile Include="RestModels\Coupon.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

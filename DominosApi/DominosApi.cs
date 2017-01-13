@@ -76,9 +76,9 @@ namespace DominosApi
 			return response;
 		}
 
-		public async Task<OrderResponse> PlaceOrder(Order order, List<Payment> payments)
+		public async Task<OrderResponse> PlaceOrder(Order order, List<Payment> payments, List<Coupon> coupons = null)
 		{
-			var requestBodyInnerObj = new OrderWithPayment(order, payments);
+			var requestBodyInnerObj = new OrderWithPayment(order, payments, coupons);
 
 			var request = RestUtils.PackageRestRequest(URI.PlaceOrderURI, Method.POST, 
 				new PlaceOrderRequest(requestBodyInnerObj), _orderHeaders);
