@@ -20,6 +20,7 @@ namespace DominosApi
 	{
 		public string EstimatedWaitMinutes { get; private set; }
 		public string PriceOrderTime { get; private set; }
+		public string StoreOrderId { get; private set;}
 		public AmountBreakdown Amounts { get; private set; }
 	}
 
