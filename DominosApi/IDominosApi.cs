@@ -29,10 +29,8 @@ namespace DominosApi
     {
         public RestRequestFailureException(string message) 
             : base(message) { }
-
         public RestRequestFailureException(string message, Exception innerException)
             : base(message, innerException) { }
-
         protected RestRequestFailureException(SerializationInfo info, StreamingContext ctxt)
             : base(info, ctxt) { }
     }
@@ -52,10 +50,8 @@ namespace DominosApi
     {
         public DominosException(string message)
             : base(message) { }
-
         public DominosException(string message, Exception innerException)
             : base(message, innerException) { }
-
         protected DominosException(SerializationInfo info, StreamingContext ctxt)
             : base(info, ctxt) { }
     }
