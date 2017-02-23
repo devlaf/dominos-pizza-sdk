@@ -2,7 +2,8 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using RestSharp;
+using RestSharp.Portable;
+using RestSharp.Portable.HttpClient;
 
 namespace DominosApi
 {

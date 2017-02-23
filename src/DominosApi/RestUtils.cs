@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using System.Xml;
-using RestSharp;
+using RestSharp.Portable;
+using RestSharp.Portable.HttpClient;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using RestSharp.Deserializers;
 
 namespace DominosApi
 {
@@ -37,58 +36,47 @@ namespace DominosApi
         /// HTTP response.</typeparam>
         /// <exception cref="AggregateException">In the case of a non-200 response (and throwOnError==false),
         /// this method will return an AggregateException which wraps a RestRequestFailureException.</exception>
-        public static async Task<T> SendRestRequest<T>(RestClient client, RestRequest request, 
+        public static async Task<T> SendRestRequest<T>(RestClient client, RestRequest request,
             ResponseBodyType format = ResponseBodyType.JSON, Action<string> log = null, bool throwOnError = true)
         {
-            return await Task.Factory.StartNew<T>(() => {
-                    LogRequest(log, client, request);
+            LogRequest(log, client, request);
 
-                    var response = SendRestRequestSyncronous(client, request, log, throwOnError);
+            var response = await client.Execute(request);
 
-                    LogResponse(log, response);
-
-                    return DeserializeRestResponse<T>(response, format, log, throwOnError);
-                }
-            );
-        }
-
-        private static IRestResponse SendRestRequestSyncronous(RestClient client, RestRequest request, 
-            Action<string> log, bool throwOnError)
-        {
-            var response = client.Execute(request);
-
-            if(response.StatusCode != System.Net.HttpStatusCode.OK)
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
             {
-                var error = string.Format("HTTP request failed with status code:[{0}].  Message: [{1}]", 
-                    response.StatusCode, response.ErrorMessage);
+                var error = string.Format("HTTP request failed with status code:[{0}].  Message: [{1}]",
+                    response.StatusCode, response.StatusDescription);
 
-                if(log != null)
-                    log(error);
+                log?.Invoke(error);
 
-                if(throwOnError)
+                if (throwOnError)
                     throw new RestRequestFailureException(error);
             }
 
-            return response;
+            LogResponse(log, response);
+
+            return DeserializeRestResponse<T>(response, format, log, throwOnError);
+
         }
 
         private static void LogRequest(Action<string> log, RestClient client, RestRequest request)
         {
-            if(log == null)
+            if (log == null)
                 return;
 
             var requestToLog = new
-				{
-					resource = request.Resource,
-					parameters = request.Parameters.Select(parameter => new
-							{
-								name = parameter.Name,
-								value = parameter.Value,
-								type = parameter.Type.ToString()
-							}),
-					method = request.Method.ToString(),
-					uri = client.BuildUri(request)
-				};
+            {
+                resource = request.Resource,
+                parameters = request.Parameters.Select(parameter => new
+                {
+                    name = parameter.Name,
+                    value = parameter.Value,
+                    type = parameter.Type.ToString()
+                }),
+                method = request.Method.ToString(),
+                uri = client.BuildUri(request)
+            };
 
             log(string.Format("Sending Request.  Details: {0}{1} ", Environment.NewLine,
                     JsonConvert.SerializeObject(requestToLog)));
@@ -96,7 +84,7 @@ namespace DominosApi
 
         private static void LogResponse(Action<string> log, IRestResponse response)
         {
-            if(log == null)
+            if (log == null)
                 return;
 
             log(string.Format("Response Recieved.  Details: {0}{1} ", Environment.NewLine,
@@ -107,19 +95,19 @@ namespace DominosApi
 
         #region PackageRestRequest
 
-        public static RestRequest PackageRestRequest(string requestUri, Method httpVerb, object body = null, 
+        public static RestRequest PackageRestRequest(string requestUri, Method httpVerb, object body = null,
             Dictionary<string, string> headers = null)
         {
             var request = new RestRequest(requestUri, httpVerb);
 
-            if(body != null)
+            if (body != null)
             {
                 string serializedBody = JsonConvert.SerializeObject(body, GenerateSerializationSettings());
                 request.Parameters.Clear();
                 request.AddParameter("application/json", serializedBody, ParameterType.RequestBody);
             }
 
-            if(headers != null)
+            if (headers != null)
                 headers.Select(x => request.AddHeader(x.Key, x.Value));
 
             return request;
@@ -129,27 +117,27 @@ namespace DominosApi
 
         #region (De)Serialization
 
-        private static T DeserializeRestResponse<T>(IRestResponse response, ResponseBodyType format, 
+        private static T DeserializeRestResponse<T>(IRestResponse response, ResponseBodyType format,
             Action<string> log, bool throwOnError)
         {
             try
             {
                 var responsePayload = response.Content;
 
-                if(format == ResponseBodyType.XML)
+                if (format == ResponseBodyType.XML)
                     responsePayload = JsonConvert.SerializeXNode(XDocument.Parse(response.Content));  // gross.
 
                 return JsonConvert.DeserializeObject<T>(responsePayload, GenerateSerializationSettings());
-            } 
-            catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 var error = string.Format("Deserialization of rest response failed.  Response Content:[{0}].  " +
                     "Exception Message: [{1}]", response.Content, ex.Message);
 
-                if(log != null)
+                if (log != null)
                     log(error);
 
-                if(throwOnError)
+                if (throwOnError)
                     throw new RestRequestFailureException(error, ex);
 
                 return default(T);
@@ -168,15 +156,15 @@ namespace DominosApi
         /// </summary>
         private class CustomContractResolver : DefaultContractResolver
         {
-            protected override JsonProperty CreateProperty(MemberInfo member, 
+            protected override JsonProperty CreateProperty(MemberInfo member,
                                                   MemberSerialization memberSerialization)
             {
                 var prop = base.CreateProperty(member, memberSerialization);
 
-                if(!prop.Writable)
+                if (!prop.Writable)
                 {
                     var property = member as PropertyInfo;
-                    if(property != null)
+                    if (property != null)
                     {
                         var hasPrivateSetter = property.GetSetMethod(true) != null;
                         prop.Writable = hasPrivateSetter;
