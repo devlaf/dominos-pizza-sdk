@@ -6,7 +6,7 @@ namespace DominosApi
     /// <remarks>
     /// The menu is the most dynamic and least intuitive part of the Dominos API.  It's dangerous
     /// to invest a lot of energy into this, as will likely change at the whim of the engineers over
-    /// at dominoes (which is completely fair, as this is not actually a public, documented api.) 
+    /// at dominos (which is completely fair, as this is not actually a public, documented api.) 
     /// The implementation here is due for a major overhaul, but for now I'm gonna focus on the 
     /// "Preconfigured Products" section.
     /// </remarks>

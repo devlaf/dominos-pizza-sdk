@@ -6,17 +6,54 @@ namespace DominosApi
 {
     public interface IDominosApi
     {
+        /// <summary>
+        /// Retrieves a list of Dominos stores that will deliver to the provided address.
+        /// </summary>
         Task<LocationQueryResponse> SearchLocations(Address deliveryAddress);
 
+        /// <summary>
+        /// Retrieves store hours, etc. for provided store.
+        /// </summary>
         Task<StoreDetailsQueryResponse> GetStoreDetails(int StoreID);
 
+        /// <summary>
+        /// Retrieves menu information (product codes, etc.) available for the provided store.
+        /// </summary>
         Task<MenuQueryResponse> GetMenu(int StoreID);
 
+        /// <summary>
+        /// Calculates the total price of an order.  This is the price that must be covered by the
+        /// payments object provided to a subsequent PlaceOrder call.
+        /// </summary>
         Task<OrderResponse> PriceOrder(Order order);
 
+        /// <summary>
+        /// Submits an order to the Dominos platform.  
+        /// </summary>
+        /// <remarks>
+        /// The total amount you elect to pay across all of the payments in the provided list must
+        /// be equal to the total cost of the order, which can be determined by a call to PriceOrder(...).
+        /// Also, it is wise to look for coupons because they get you a long way with Dominos.  The
+        /// item pricing doesn't make sense if you are not using their deals, and your order will 
+        /// cost significantly more.
+        /// </remarks>
         Task<OrderResponse> PlaceOrder(Order order, List<Payment> payments, List<Coupon> coupons = null);
 
+        /// <summary>
+        /// Gets the order status (in-the-oven, out-for-delivery, etc.) for recent orders that have been
+        /// placed and are associated with the provided phone number.
+        /// </summary>
         Task<List<OrderStatus>> TrackOrder(string phoneNumber);
+
+        /// <summary>
+        /// A user may attach an optional logging delegate to keep track of any errors that occur while making requests.
+        /// </summary>
+        /// <remarks>
+        /// This method need not be wrapped internally by any sort of pooling/threading/batching/etc.  A client 
+        /// should either implement that on their own or otherwise make sure that the log function doesn't take 
+        /// a long time.  Additionally, the onus is on the user to ensure thread-safety.
+        /// </remarks>
+        Action<string> LogError { get; set; }
     }
 
     /// <summary>

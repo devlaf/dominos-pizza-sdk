@@ -20,14 +20,6 @@ namespace DominosApi
 
         #region (Optional) Logger
 
-        /// <summary>
-        /// A client may attach a logging delegate to keep track of any errors that occur while making requests.
-        /// </summary>
-        /// <remarks>
-        /// This method does not do any sort of pooling/threading/batching/etc.  A client should either implement
-        /// that on their own or otherwise make sure that the log function doesn't take a long time.  Additionally,
-        /// the onus is on the client to ensure thread-safety.
-        /// </remarks>
         public Action<string> LogError { 
             get { return _LogError ?? new Action<string>((x) => { return; }); }
             set { _LogError = value; }
@@ -101,6 +93,11 @@ namespace DominosApi
             return new List<OrderStatus>(new OrderStatus[] { status });
         }
 
+        /// <summary>
+        /// Occasionally, a request will return a HTTP 200 response code, but will still indicate
+        /// that an error occured as part of the repsonse body.  We must check the returned 
+        /// Status and StatusItems properties for this secondary type of error.
+        /// </summary>
         private void ThrowOnInvalidDominosStatus(OrderResponse response)
         {
             if(response.Status < 0)

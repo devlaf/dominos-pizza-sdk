@@ -134,8 +134,7 @@ namespace DominosApi
                 var error = string.Format("Deserialization of rest response failed.  Response Content:[{0}].  " +
                     "Exception Message: [{1}]", response.Content, ex.Message);
 
-                if (log != null)
-                    log(error);
+                log?.Invoke(error);
 
                 if (throwOnError)
                     throw new RestRequestFailureException(error, ex);
