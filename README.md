@@ -7,7 +7,7 @@ This SDk targets endpoints on the Dominos online ordering API, which is both pri
 # Building This Code
 As of version 2.0, this library is designed to build against .net core.
 
-Given the recent (and developing) situation with decision in the .net core effort to [transition to the csproj project format from the previous project.json format,](https://blogs.msdn.microsoft.com/dotnet/2016/11/16/announcing-net-core-tools-msbuild-alpha/) there are some restrictions on how code in this repo may be built.  This project has opted to support the new csproj format going forward; however, given the state of tooling at the current time what that means is that **building this project will require either Visual Studio 2017 RC or a version of the dotnet CLI tools greater than 1.0.0-RC3.**
+Given the recent (and developing) situation with decision in the .net core effort to [transition to the csproj project format from the previous project.json format,](https://blogs.msdn.microsoft.com/dotnet/2016/11/16/announcing-net-core-tools-msbuild-alpha/) there are some restrictions on how code in this repo may be built.  This project has opted to support the new csproj format going forward; however, given the state of tooling at the current time what that means is that **building this project will require either Visual Studio 2017 (RC works too) or a version of the dotnet CLI tools greater than 1.0.0-RC3.**
 
 # Examples
 ### Finding a Store
