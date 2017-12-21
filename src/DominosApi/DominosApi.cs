@@ -2,6 +2,9 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DominosApi.RestModels;
+using DominosApi.RestModels.Requests;
+using DominosApi.RestModels.Responses;
 using RestSharp.Portable;
 using RestSharp.Portable.HttpClient;
 

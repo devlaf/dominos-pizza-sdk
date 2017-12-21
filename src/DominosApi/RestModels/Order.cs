@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace DominosApi
+namespace DominosApi.RestModels
 {
     [JsonObject]
     public class Order

@@ -1,7 +1,6 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace DominosApi
+namespace DominosApi.RestModels.Requests
 {
     [JsonObject]
     public class PriceOrderRequest

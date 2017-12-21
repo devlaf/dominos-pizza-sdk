@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace DominosApi
+namespace DominosApi.RestModels.Responses
 {
     /// <remarks>
     /// The menu is the most dynamic and least intuitive part of the Dominos API.  It's dangerous
