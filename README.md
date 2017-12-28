@@ -12,7 +12,7 @@ Given the recent (and developing) situation with decision in the .net core effor
 # Examples
 ### Finding a Store
 ```C#
-var api = new DominosApi();
+IDominosApi api = new DominosApi();
 var deliveryAddress = new Address("9 Lupine Road", "Lowell", "MA", "01850", Address.UnitCategory.House);
 var locationData = await api.SearchLocations(deliveryAddress);
 
@@ -22,7 +22,7 @@ int? nearestStoreID = locationData.Stores.OrderBy(x => x.MinDistance)
 
 ### Searching the Menu
 ```C#
-var api = new DominosApi();
+IDominosApi api = new DominosApi();
 var menu = await api.GetMenu(nearestStoreID.Value);
 var practicalMenuInfo = menu.PreconfiguredProducts.Select(x =>
     new Tuple<string, string, string>(x.Value.Code, x.Value.Name, x.Value.Description));
@@ -30,7 +30,7 @@ var practicalMenuInfo = menu.PreconfiguredProducts.Select(x =>
 
 ### Placing an Order
 ```C#
-var api = new DominosApi();
+IDominosApi api = new DominosApi();
 var deliveryAddress = new Address("43 Elm Avenue", "Quincy", "MA", "02170", Address.UnitCategory.House);
 var customerInfo = new Customer("John", "Cheever", deliveryAddress, "thecheeves@gmail.com", "6173456789");
 string storeId = "3712";    // Get this value from a call to SearchLocations(...)
@@ -41,7 +41,7 @@ var products = new List<Product> {  new Product("14SCREEN", 2, new List<string> 
 	new Product("CINNASTIX8", 1)};
 
 var coupons = new List<Coupon> { new Coupon("3510", 1) };   // This particular coupon saves us money on three medium pizzas.
-// Get this value from a call to GetMenu(...)
+                                                            // Get this value from a call to GetMenu(...)
 
 var myOrder = new Order(customerInfo, storeId, products, coupons);
 
@@ -57,9 +57,11 @@ var order = await api.PlaceOrder(myOrder, payments);
 
 ### Tracking an Order
 ```C#
-var api = new DominosApi();
-var myOrderStatuses = await api.TrackOrder("6173456789");   // Order state seems to update every 90 seconds or so, so it doesn't
-															// make sense to poll it any more frequently than that.
+IDominosApi api = new DominosApi();
+
+// Order state seems to update every 90 seconds or so, so it doesn't
+// make sense to poll it any more frequently than that.
+var myOrderStatuses = await api.TrackOrder("6173456789");   
 
 var mostRecentOrder = myOrderStatuses.OrderBy(x => x.AsOfTime).DefaultIfEmpty(null).FirstOrDefault();
 
