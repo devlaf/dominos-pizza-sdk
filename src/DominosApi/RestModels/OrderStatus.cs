@@ -1,8 +1,7 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace DominosApi
+namespace DominosApi.RestModels
 {
     public enum OrderLocation
     {

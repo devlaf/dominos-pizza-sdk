@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace DominosApi
+namespace DominosApi.RestModels
 {
     /// <summary>
     /// When an order object is returned in the response to a place/price request from 

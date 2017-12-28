@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace DominosApi
+namespace DominosApi.RestModels.Responses
 {
     /// <summary>
     /// This, and the other thin classes in this file are used to unpack the SOAP tracking response

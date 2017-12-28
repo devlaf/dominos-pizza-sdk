@@ -2,7 +2,7 @@
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace DominosApi
+namespace DominosApi.RestModels
 {
     [JsonObject]
     public class Address
